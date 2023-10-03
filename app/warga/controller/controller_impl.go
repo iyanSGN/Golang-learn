@@ -69,8 +69,6 @@ func CreateWarga(c echo.Context) error {
 			"nama" : createdWarga.Nama,
 			"no_ktp" : createdWarga.NoKtp,
 			"kecamatan_id" : createdWarga.IDKecamatan,
-			"kabupaten_id" : createdWarga.IDKabupaten,
-			"provinsi_id"  : createdWarga.IDProvinsi,
 		},
 	}
 

@@ -8,8 +8,6 @@ import (
 type MWarga struct {
 	ID        	uint   		`json:"id" gorm:"primary_key"`
 	IDKecamatan	*uint		`json:"id_kecamatan"`
-	IDKabupaten	*uint		`json:"id_kabupaten"`
-	IDProvinsi	*uint		`json:"id_provinsi"`
 	Nama     	string 		`json:"nama" gorm:"varchar(100)"`
 	NoKtp     	string 		`json:"no_ktp" gorm:"varchar(100);unique"`
 	IsActive  	bool   		`json:"is_active" gorm:"default:true"`
@@ -17,8 +15,6 @@ type MWarga struct {
 	UpdatedAt 	time.Time	`json:"updated_at"`
 
 	Kecamatan	*MKecamatan	`json:"kecamtan" gorm:"foreignKey:IDKecamatan"`
-	Kabupaten	*MKabKota	`json:"kabupaten" gorm:"foreignKey:IDKabupaten"`
-	Provinsi	*MProvinsi	`json:"provinsi" gorm:"foreignKey:IDProvinsi"`
 
 
 }
@@ -30,8 +26,11 @@ func (mk *MWarga) ToResponse() warga.WargaResponseDTO {
 		Nama: mk.Nama,
 		NoKtp: mk.NoKtp,
 		IDKecamatan: mk.IDKecamatan,
-		IDKabupaten: mk.IDKabupaten,
-		IDProvinsi: mk.IDProvinsi,
+		Kecamatan_nama: mk.Kecamatan.Nama,
+		IDKabupaten: mk.Kecamatan.IDKabKota,
+		Kabupaten_nama: mk.Kecamatan.KabKota.Nama,
+		IDProvinsi: mk.Kecamatan.KabKota.IDProvinsi,
+		Provinsi_nama: mk.Kecamatan.KabKota.Provinsi.Nama,
 		CreatedAt: mk.CreatedAt,
 	}
 }

@@ -50,16 +50,6 @@ func CreateWarga(request models.MWarga) (models.MWarga, error) {
 		warga.IDKecamatan = &kecamatanID
 	}
 
-	if request.IDKabupaten != nil {
-		kabupatenID := uint(*request.IDKabupaten)
-		warga.IDKabupaten = &kabupatenID
-	}
-
-	if request.IDProvinsi != nil {
-		provinsiID := uint(*request.IDProvinsi)
-		warga.IDProvinsi = &provinsiID
-	}
-
 	result := db.Create(&request)
 	if result.Error != nil {
 		return request, fmt.Errorf("error creating warga: %w", result.Error)
@@ -90,17 +80,6 @@ func UpdateWarga(id int, request warga.WargaRequestDTO) error {
 		kecamatanID := uint(*request.IDKecamatan)
 		warga.IDKecamatan = &kecamatanID
 	}
-
-	if request.IDKabupaten != nil {
-		kabupatenID := uint(*request.IDKabupaten)
-		warga.IDKabupaten = &kabupatenID
-	}
-
-	if request.IDProvinsi != nil {
-		provinsiID := uint(*request.IDProvinsi)
-		warga.IDProvinsi = &provinsiID
-	}
-
 	updatedWarga := db.Save(&warga)
 	if updatedWarga.Error != nil {
 		return fmt.Errorf("error updatig warga: %w", updatedWarga.Error)

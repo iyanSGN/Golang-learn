@@ -60,6 +60,7 @@ func Migrate() {
 		&models.MRegister{},
 		&models.MProvinsi{},
 		&models.MWarga{},
+		&models.MOTP{},
 	)
 }
 

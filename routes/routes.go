@@ -9,6 +9,11 @@ import (
 func SetupRoutes(g *echo.Group) {
 	g.GET("/", handlers.Home)
 	g.POST("/login", handlers.LoginAccount)
+	g.POST("/generateotp", handlers.GenerateOTP)
+	g.POST("/resendotp", handlers.ResendOTP)
+	g.POST("/verifyotp", handlers.VerifyOtp)
+
+	
 	Admin := g.Group("")
 	Admin.Use(handlers.TokenMiddleware)
 

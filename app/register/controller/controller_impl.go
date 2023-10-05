@@ -6,6 +6,7 @@ import (
 	"rearrange/app/register/repository"
 	"rearrange/app/register/service"
 	"rearrange/helpers"
+	"rearrange/middleware"
 	"rearrange/models"
 	"rearrange/package/response"
 	"rearrange/token"
@@ -53,6 +54,8 @@ func (co *controllerImpl)GetByID(c echo.Context) error {
 
 func CreateAdmin(c echo.Context) error {
 	var admin models.MRegister
+	otpRepo := middleware.NewOtpRepository()
+
 	if err := c.Bind(&admin);
 	err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
@@ -61,6 +64,8 @@ func CreateAdmin(c echo.Context) error {
 			"status_code": http.StatusBadRequest,
 		})
 	}
+
+	admin.Isactive = 0
 
 	if err := helpers.HashPassword(&admin);
 	err != nil {
@@ -77,6 +82,19 @@ func CreateAdmin(c echo.Context) error {
 		})
 	}
 
+	otpCode := otpRepo.GenerateOTP()
+	err = otpRepo.CreateOtp(int32(createdAdmin.ID), otpCode)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	otpcodeStr := strconv.Itoa(int(otpCode))
+
+	err = middleware.Otp(createdAdmin.Email, otpcodeStr)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
 	adminID := uint(admin.ID)
 	token, err := token.GenerateToken(adminID)
 	if err != nil {
@@ -90,6 +108,7 @@ func CreateAdmin(c echo.Context) error {
 			"message" :  "register Successfull",
 			"email" : createdAdmin.Email,
 			"password" : createdAdmin.Password,
+			"isactive" : createdAdmin.Isactive,
 		},
 	}
 

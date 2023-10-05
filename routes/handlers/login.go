@@ -50,6 +50,7 @@ func LoginAccount(c echo.Context) error {
 			"message" : "Login as an admin successfull",
 			"id" : admin.ID,
 			"email" : admin.Email,
+			"isactive" : admin.Isactive,
 		},
 	}
 

@@ -10,8 +10,8 @@ import (
 const (
 	CONFIG_SMTP_HOST     = "smtp.gmail.com"
 	CONFIG_SMTP_PORT     = 587
-	CONFIG_SENDER_NAME   = "PT. NGIRIM OTP MULU"
-	CONFIG_AUTH_EMAIL    = "nanpurnanda@gmail.com"
+	CONFIG_SENDER_NAME   = "PT.OTP"
+	CONFIG_AUTH_EMAIL    = "Iyan Rohib Siagian"
 	CONFIG_AUTH_PASSWORD = "aliiwbjjqzibktve"
 )
 

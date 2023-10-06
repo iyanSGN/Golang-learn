@@ -70,7 +70,7 @@ func (repo *OtpRepository) DeleteExpiredOtp()error {
 	db :=  database.GetDB()
 
 	expirationTime := time.Now().Add(-5 * time.Minute)
-	err := db.Where("createda < ?", expirationTime).Delete(&models.MOTP{}).Error
+	err := db.Where("createdat < ?", expirationTime).Delete(&models.MOTP{}).Error
 	if err == gorm.ErrRecordNotFound {
 		return nil
 	}

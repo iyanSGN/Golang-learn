@@ -7,7 +7,7 @@ import (
 
 type MWarga struct {
 	ID        	uint   		`json:"id" gorm:"primary_key"`
-	IDKecamatan	*uint		`json:"id_kecamatan"`
+	IDKecamatan	*uint		`json:"id_kecamatan" gorm:"not null"`
 	Nama     	string 		`json:"nama" gorm:"varchar(100)"`
 	NoKtp     	string 		`json:"no_ktp" gorm:"varchar(100);unique"`
 	IsActive  	bool   		`json:"is_active" gorm:"default:true"`
@@ -29,7 +29,7 @@ func (mk *MWarga) ToResponse() warga.WargaResponseDTO {
 		Kecamatan_nama: mk.Kecamatan.Nama,
 		IDKabupaten: mk.Kecamatan.IDKabKota,
 		Kabupaten_nama: mk.Kecamatan.KabKota.Nama,
-		IDProvinsi: mk.Kecamatan.KabKota.IDProvinsi,
+		IDProvinsi: &mk.Kecamatan.KabKota.Provinsi.ID,
 		Provinsi_nama: mk.Kecamatan.KabKota.Provinsi.Nama,
 		CreatedAt: mk.CreatedAt,
 	}

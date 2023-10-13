@@ -7,7 +7,7 @@ import (
 
 type MKecamatan struct {
 	ID        uint      `json:"id" gorm:"primary_key"`
-	IDKabKota *uint     `json:"id_kab_kota"`
+	IDKabKota *uint     `json:"id_kab_kota" gorm:"not null"`
 	Nama      string    `json:"nama" gorm:"type:varchar(100);not null"`
 	IsActive  bool      `json:"is_active" gorm:"default:true"`
 	CreatedBy uint      `json:"created_by"`
@@ -15,7 +15,7 @@ type MKecamatan struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 
-	KabKota *MKabKota `json:"kab_kota" gorm:"foreignKey:IDKabKota"`
+	KabKota MKabKota `json:"kab_kota" gorm:"foreignKey:IDKabKota"`
 }
 
 func (mk *MKecamatan) ToResponse() kecamatan.KecamatanResponseDTO {

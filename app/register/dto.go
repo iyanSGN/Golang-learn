@@ -4,6 +4,7 @@ import "time"
 
 type AdminRequestDTO struct {
 	ID       uint   `json:"id"`
+	RoleID	 *uint	`json:"role_id" validate:"required"`
 	Nama     string `json:"nama" validate:"required"`
 	Phone    string `json:"phone" validate:"required"`
 	Email    string `json:"email" validate:"required"`

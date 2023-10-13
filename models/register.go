@@ -7,6 +7,7 @@ import (
 
 type MRegister struct {
 	ID        uint      `json:"id" gorm:"primary_key"`
+	RoleID	  *uint		`json:"role_id"`
 	Isactive  int32     `json:"isactive"`
 	Nama      string    `json:"nama"`
 	Phone     string    `json:"phone"`

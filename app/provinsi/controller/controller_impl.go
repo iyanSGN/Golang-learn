@@ -48,10 +48,13 @@ func (co *controllerImpl) GetByID(c echo.Context) error {
 
 func CreateProvinsi(c echo.Context) error {
 	request := models.MProvinsi{}
+	var admin models.MRegister
 	err := c.Bind(&request)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+
+	request.CreatedBy = admin.ID
 
 	CreatedProvinsi, err := repository.CreateProvinsi(request)
 	if err != nil {
@@ -60,8 +63,8 @@ func CreateProvinsi(c echo.Context) error {
 
 	response := map[string]interface{}{
 		"data" : map[string]interface{}{
-			"id" : CreatedProvinsi.ID,
-			"nama" : CreatedProvinsi.Nama,
+		"id" : CreatedProvinsi.ID,
+		"nama" : CreatedProvinsi.Nama,
 		},
 		}
 		return c.JSON(http.StatusOK, response)

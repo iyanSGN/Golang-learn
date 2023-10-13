@@ -47,7 +47,7 @@ func CreateAdmin(admin models.MRegister) (models.MRegister, error) {
 	return admin, nil
 }
 
-func UpdateAdmin(id int, adminID models.MRegister) error {
+func UpdateAdmin(id int, adminID models.MRegister ) error {
 	db := database.GetDB()
 
 	var admin models.MRegister
@@ -71,6 +71,11 @@ func UpdateAdmin(id int, adminID models.MRegister) error {
 
 	if adminID.Password != "" {
 		admin.Password = adminID.Password
+	}
+
+	if adminID.RoleID != nil {
+		roleID := uint(*adminID.RoleID)
+		admin.RoleID = &roleID
 	}
 
 	updatedAdmin := db.Save(&admin)

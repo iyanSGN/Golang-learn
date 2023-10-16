@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
+	"rearrange/app/provinsi"
 	"rearrange/app/provinsi/repository"
 	"rearrange/app/provinsi/service"
 	"rearrange/models"
@@ -28,7 +29,7 @@ func (co *controllerImpl) GetAll(c echo.Context) error {
 		return response.ErrorResponse(c, err)
 	}
 
-	return response.SuccessResponse(c, http.StatusOK, "Success Get All Kecamatan", result)
+	return response.SuccessResponse(c, http.StatusOK, "Success Get All Provinsi", result)
 }
 
 func (co *controllerImpl) GetByID(c echo.Context) error {
@@ -47,27 +48,22 @@ func (co *controllerImpl) GetByID(c echo.Context) error {
 }
 
 func CreateProvinsi(c echo.Context) error {
-	request := models.MProvinsi{}
-	var admin models.MRegister
+	request := provinsi.ProvinsiRequestDTO{}
 	err := c.Bind(&request)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
-	request.CreatedBy = admin.ID
 
 	CreatedProvinsi, err := repository.CreateProvinsi(request)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	response := map[string]interface{}{
-		"data" : map[string]interface{}{
-		"id" : CreatedProvinsi.ID,
-		"nama" : CreatedProvinsi.Nama,
-		},
-		}
-		return c.JSON(http.StatusOK, response)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"data" : 	CreatedProvinsi,
+		"status_code" : http.StatusCreated,
+	})
+
 	}
 
 

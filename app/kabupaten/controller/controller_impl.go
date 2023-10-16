@@ -6,7 +6,6 @@ import (
 	"rearrange/app/kabupaten"
 	"rearrange/app/kabupaten/repository"
 	"rearrange/app/kabupaten/service"
-	"rearrange/models"
 	"rearrange/package/response"
 	"strconv"
 
@@ -49,7 +48,7 @@ func (co *controllerImpl)GetByID(c echo.Context) error {
 }
 
 func CreateKabupaten(c echo.Context) error {
-	var kab models.MKabKota
+	var kab kabupaten.KabKotaRequestDTO
 	if err := c.Bind(&kab);
 	err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -60,15 +59,10 @@ func CreateKabupaten(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	response := map[string]interface{}{
-		"data" : map[string]interface{}{
-			"id" : CreatedKabupaten.ID,
-			"Provinsi_id" : CreatedKabupaten.IDProvinsi,
-			"Kabupaten_nama" : CreatedKabupaten.Nama,
-		},
-	}
-	
-	return c.JSON(http.StatusOK, response)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"status_code" : http.StatusCreated,
+		"data" 		  : CreatedKabupaten,
+	})
 }
 
 func UpdateKabupaten(c echo.Context) error {

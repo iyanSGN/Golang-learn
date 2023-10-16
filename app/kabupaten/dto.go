@@ -3,11 +3,10 @@ package kabupaten
 import "time"
 
 type KabKotaRequestDTO struct {
-	ID         		uint 			`json:"id"`
 	IDProvinsi 		*uint 			`json:"id_provinsi" validate:"required"`
 	Nama       		string 			`json:"nama" validate:"required"`
-	CreatedBy 		uint   			`json:"created_by"`
-	UpdatedBy 		uint   			`json:"updated_by"`
+	CreatedBy 		uint   			`json:"createdby"`
+	UpdatedBy 		uint   			`json:"updatedby"`
 }
 
 type KabKotaResponseDTO struct {

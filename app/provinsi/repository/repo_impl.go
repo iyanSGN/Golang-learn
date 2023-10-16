@@ -37,7 +37,7 @@ func (r *repositoryImpl) GetByID(c echo.Context, DB *gorm.DB, ID uint) (models.M
 	return provinsi, nil
 }
 
-func CreateProvinsi(request provinsi.ProvinsiRequestDTO ) (provinsi.ProvinsiRequestDTO, error) {
+func CreateProvinsi(request provinsi.ProvinsiRequestDTO) (provinsi.ProvinsiRequestDTO, error) {
 	db := database.GetDB()
 
 

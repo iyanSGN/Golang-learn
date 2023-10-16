@@ -37,11 +37,14 @@ func (r *repositoryImpl) GetByID(c echo.Context, DB *gorm.DB, ID uint) (models.M
 	return kabupaten, nil
 }
 
-func CreateKabupaten(request models.MKabKota) (models.MKabKota, error) {
+func CreateKabupaten(request kabupaten.KabKotaRequestDTO) (kabupaten.KabKotaRequestDTO, error) {
 	db := database.GetDB()
 
-	kabupaten := kabupaten.KabKotaRequestDTO{
-		ID: request.ID,
+	kabupaten := models.MKabKota{
+		IDProvinsi: request.IDProvinsi,
+		Nama: request.Nama,
+		CreatedBy: request.CreatedBy,
+		UpdatedBy: request.CreatedBy,
 	}
 
 	if request.IDProvinsi != nil {
@@ -49,7 +52,7 @@ func CreateKabupaten(request models.MKabKota) (models.MKabKota, error) {
 		kabupaten.IDProvinsi = &ProvinsiID
 	}
 
-	result := db.Create(&request)
+	result := db.Create(&kabupaten)
 	if result.Error != nil {
 		return request, fmt.Errorf("error creating Kabupaten: %w", result.Error)
 	}

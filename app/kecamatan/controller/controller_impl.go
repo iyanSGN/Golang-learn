@@ -6,7 +6,6 @@ import (
 	"rearrange/app/kecamatan"
 	"rearrange/app/kecamatan/repository"
 	"rearrange/app/kecamatan/service"
-	"rearrange/models"
 	"rearrange/package/response"
 	"strconv"
 
@@ -49,7 +48,7 @@ func (co *controllerImpl) GetByID(c echo.Context) error {
 }
 
 func CreateKecamatan(c echo.Context) error {
-	var kec models.MKecamatan
+	var kec kecamatan.KecamatanRequestDTO
 	if err := c.Bind(&kec); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -59,15 +58,10 @@ func CreateKecamatan(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	response := map[string]interface{}{
-		"data" : map[string]interface{}{
-			"id" : CreatedKecamatan.ID,
-			"Kabupaten_id" : CreatedKecamatan.IDKabKota,
-			"Kecamatan_nama" : CreatedKecamatan.Nama,
-		},
-	}
-
-	return c.JSON(http.StatusOK, response)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"status_code" : http.StatusCreated,
+		"data" : CreatedKecamatan,
+	})
 }
 
 func UpdateKecamatan(c echo.Context) error {

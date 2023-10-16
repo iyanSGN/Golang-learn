@@ -19,6 +19,12 @@ type MRegister struct {
 	UpdatedAt 		time.Time 		`json:"updatedat"`
 	Provinsi1		MProvinsi		`gorm:"foreignKey:CreatedBy"`
 	Provinsi2		MProvinsi		`gorm:"foreignKey:UpdatedBy"`
+	Kabupaten1		MKabKota		`gorm:"foreignKey:CreatedBy"`
+	Kabupaten2		MKabKota		`gorm:"foreignKey:UpdatedBy"`
+	Kecamatan1		MKecamatan		`gorm:"foreignKey:CreatedBy"`
+	Kecamatan2		MKecamatan		`gorm:"foreignKey:UpdatedBy"`
+
+		
 }
 
 func (mk *MRegister) ToResponse() register.AdminResponseDTO{

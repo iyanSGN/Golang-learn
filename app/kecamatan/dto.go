@@ -3,9 +3,11 @@ package kecamatan
 import "time"
 
 type KecamatanRequestDTO struct {
-	ID        uint   `json:"id"`
-	IDKabKota *uint  `json:"id_kab_kota" validate:"required"`
-	Nama      string `json:"nama" validate:"required"`
+	IDKabKota 	*uint  		`json:"id_kab_kota" validate:"required"`
+	Nama     	string 		`json:"nama" validate:"required"`
+	CreatedBy	uint		`json:"createdby"`
+	UpdatedBy	uint		`json:"updatedby"`
+	
 }
 
 type KecamatanResponseDTO struct {

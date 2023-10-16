@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"rearrange/app/provinsi"
 	"rearrange/models"
 	"rearrange/package/database"
 
@@ -36,10 +37,17 @@ func (r *repositoryImpl) GetByID(c echo.Context, DB *gorm.DB, ID uint) (models.M
 	return provinsi, nil
 }
 
-func CreateProvinsi(request models.MProvinsi ) (models.MProvinsi, error) {
+func CreateProvinsi(request provinsi.ProvinsiRequestDTO ) (provinsi.ProvinsiRequestDTO, error) {
 	db := database.GetDB()
 
-	result := db.Create(&request)
+
+	postProvinsi := models.MProvinsi{
+		Nama: request.Nama,
+		CreatedBy: request.CreatedBy,
+		UpdatedBy: request.UpdatedBy,
+	}
+
+	result := db.Create(&postProvinsi)
 	if result.Error != nil {
 		return request, fmt.Errorf("error creating provinsi: %w", result.Error)
 	}

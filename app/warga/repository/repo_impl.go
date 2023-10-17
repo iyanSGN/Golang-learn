@@ -38,11 +38,15 @@ func (r *repositoryImpl)GetByID(c echo.Context, DB *gorm.DB, ID uint) (models.MW
 	return warga, nil
 }
 
-func CreateWarga(request models.MWarga) (models.MWarga, error) {
+func CreateWarga(request warga.WargaRequestDTO) (warga.WargaRequestDTO, error) {
 	db := database.GetDB()
 
-	warga := warga.WargaRequestDTO{
-		ID: request.ID,
+	warga := models.MWarga{
+		IDKecamatan: request.IDKecamatan,
+		Nama: request.Nama,
+		NoKtp: request.NoKtp,
+		CreatedBy: request.CreatedBy,
+		UpdatedBy: request.UpdatedBy,
 	}
 
 	if request.IDKecamatan != nil {
@@ -50,7 +54,7 @@ func CreateWarga(request models.MWarga) (models.MWarga, error) {
 		warga.IDKecamatan = &kecamatanID
 	}
 
-	result := db.Create(&request)
+	result := db.Create(&warga)
 	if result.Error != nil {
 		return request, fmt.Errorf("error creating warga: %w", result.Error)
 	}

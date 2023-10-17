@@ -3,12 +3,11 @@ package warga
 import "time"
 
 type WargaRequestDTO struct {
-	ID          uint   	`json:"id"`
 	IDKecamatan *uint   `json:"id_kecamatan" validate:"required"`
-	IDKabupaten *uint	`json:"id_kabupaten" validate:"required"`
-	IDProvinsi	*uint	`json:"id_provinsi" validate:"required"`
 	Nama        string 	`json:"nama" validate:"required"`
 	NoKtp		string	`json:"no_ktp" validate:"required"`
+	CreatedBy	uint	`json:"createdby"`
+	UpdatedBy	uint	`json:"updatedby"`
 }
 
 type WargaResponseDTO struct {
@@ -22,5 +21,6 @@ type WargaResponseDTO struct {
 	IDProvinsi		*uint		`json:"id_provinsi"`
 	Provinsi_nama	string		`json:"Provinsi_nama"`
 	CreatedAt   	time.Time	`json:"created_at"`
+	CreatedBy		uint		`json:"created_by"`
 
 }

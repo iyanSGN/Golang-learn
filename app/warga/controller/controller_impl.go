@@ -6,7 +6,6 @@ import (
 	"rearrange/app/warga"
 	"rearrange/app/warga/repository"
 	"rearrange/app/warga/service"
-	"rearrange/models"
 	"rearrange/package/response"
 	"strconv"
 
@@ -52,7 +51,7 @@ func (co *controllerImpl) GetByID(c echo.Context) error {
 }
 
 func CreateWarga(c echo.Context) error {
-	var warga models.MWarga
+	var warga warga.WargaRequestDTO
 	if err := c.Bind(&warga);
 	err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
@@ -63,16 +62,10 @@ func CreateWarga(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	response := map[string]interface{}{
-		"data" : map[string]interface{}{
-			"id" : createdWarga.ID,
-			"nama" : createdWarga.Nama,
-			"no_ktp" : createdWarga.NoKtp,
-			"kecamatan_id" : createdWarga.IDKecamatan,
-		},
-	}
-
-	return c.JSON(http.StatusOK, response)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"status_code" : http.StatusCreated,
+		"data" : createdWarga,
+	})
 }
 
 

@@ -11,6 +11,8 @@ type MWarga struct {
 	Nama     	string 		`json:"nama" gorm:"varchar(100)"`
 	NoKtp     	string 		`json:"no_ktp" gorm:"varchar(100);unique"`
 	IsActive  	bool   		`json:"is_active" gorm:"default:true"`
+	CreatedBy	uint		`json:"created_by"`
+	UpdatedBy	uint		`json:"updated_by"`
 	CreatedAt 	time.Time	`json:"created_at"`
 	UpdatedAt 	time.Time	`json:"updated_at"`
 
@@ -32,5 +34,6 @@ func (mk *MWarga) ToResponse() warga.WargaResponseDTO {
 		IDProvinsi: &mk.Kecamatan.KabKota.Provinsi.ID,
 		Provinsi_nama: mk.Kecamatan.KabKota.Provinsi.Nama,
 		CreatedAt: mk.CreatedAt,
+		CreatedBy: mk.CreatedBy,
 	}
 }

@@ -15,7 +15,7 @@ type MKabKota struct {
 	CreatedAt 		time.Time		`json:"created_at"`
 	UpdatedAt 		time.Time 		`json:"updated_at"`
 
-	Provinsi		*MProvinsi		`json:"provinsi" gorm:"foreignKey:IDProvinsi; constraint:OnDelete:RESTRICT"`
+	Provinsi		*MProvinsi		`json:"provinsi" gorm:"foreignKey:IDProvinsi"`
 }
 
 func (mk *MKabKota) ToResponse() kabupaten.KabKotaResponseDTO {

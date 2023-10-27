@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"fmt"
 	"log"
-    "fmt"
 
 	"gopkg.in/gomail.v2"
 )

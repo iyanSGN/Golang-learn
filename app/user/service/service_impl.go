@@ -1,8 +1,8 @@
 package service
 
 import (
-	"rearrange/app/register"
-	"rearrange/app/register/repository"
+	"rearrange/app/user"
+	"rearrange/app/user/repository"
 	"rearrange/package/response"
 
 	"github.com/labstack/echo/v4"
@@ -21,8 +21,8 @@ func NewService(DB *gorm.DB, Repository repository.Repository) Service {
 	}
 }
 
-func (s *serviceImpl)GetAll(c echo.Context) ([]register.AdminResponseDTO, error) {
-	var adminRes []register.AdminResponseDTO
+func (s *serviceImpl)GetAll(c echo.Context) ([]user.UserResponseDTO, error) {
+	var adminRes []user.UserResponseDTO
 
 	result, err := s.Repository.GetAll(c, s.DB)
 	if err != nil {
@@ -37,8 +37,8 @@ func (s *serviceImpl)GetAll(c echo.Context) ([]register.AdminResponseDTO, error)
 }
 
 
-func (s *serviceImpl)GetByID(c echo.Context, id uint) (register.AdminResponseDTO, error) {
-	var adminRes register.AdminResponseDTO
+func (s *serviceImpl)GetByID(c echo.Context, id uint) (user.UserResponseDTO, error) {
+	var adminRes user.UserResponseDTO
 
 	result, err := s.Repository.GetByID(c, s.DB, id)
 	if err != nil {

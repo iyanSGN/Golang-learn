@@ -1,7 +1,7 @@
 package models
 
 import (
-	"rearrange/app/register"
+	"rearrange/app/user"
 	"time"
 )
 
@@ -13,6 +13,8 @@ type MRegister struct {
 	Phone     		string    		`json:"phone"`
 	Email     		string    		`gorm:"unique;type:varchar(255)" json:"email"`
 	Password  		string    		`json:"password"`
+	ImageProfile 	[]byte    		`form:"image_profile"`
+	FormatProfile 	string    		`form:"format_profile"`
 	CreatedBy 		uint      		`json:"createdby"`
 	UpdatedBy 		uint      		`json:"updatedby"`
 	CreatedAt 		time.Time 		`json:"createdat"`
@@ -23,12 +25,13 @@ type MRegister struct {
 	Kabupaten2		MKabKota		`gorm:"foreignKey:UpdatedBy"`
 	Kecamatan1		MKecamatan		`gorm:"foreignKey:CreatedBy"`
 	Kecamatan2		MKecamatan		`gorm:"foreignKey:UpdatedBy"`
+	
 
 		
 }
 
-func (mk *MRegister) ToResponse() register.AdminResponseDTO{
-	return register.AdminResponseDTO{
+func (mk *MRegister) ToResponse() user.UserResponseDTO{
+	return user.UserResponseDTO{
 		ID: mk.ID,
 		Email: mk.Email,
 		Password: mk.Password,

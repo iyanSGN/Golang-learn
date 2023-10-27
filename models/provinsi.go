@@ -18,7 +18,8 @@ func (mk *MProvinsi) ToResponse() provinsi.ProvinsiResponseDTO {
 	return provinsi.ProvinsiResponseDTO{
 		ID: mk.ID,
 		Nama: mk.Nama,
-		CreatedAt: mk.CreatedAt.UTC(),
+		CreatedAt: mk.CreatedAt,
+		UpdatedAt: mk.UpdatedAt,
 		CreatedBy: mk.CreatedBy,
 
 	}

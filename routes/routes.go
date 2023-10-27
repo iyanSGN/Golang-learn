@@ -24,6 +24,7 @@ func SetupRoutes(g *echo.Group) {
 	//BIOSTAR API
 	Admin.GET("/biostar", controller.HandleUser)
 	Admin.POST("/biostar", controller.HandlePost)
+	Admin.DELETE("/biostar", controller.DeleteUser)
 
 	kecamatanGroup := Admin.Group("/kecamatan")
 	kabupatenGroup := Admin.Group("/kabupaten")

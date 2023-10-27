@@ -1,8 +1,12 @@
 package controller
 
 import (
+	// "fmt"
+	// "strconv"
+
 	"net/http"
 	"rearrange/app/biostar/repository"
+
 
 	"github.com/labstack/echo/v4"
 )
@@ -22,7 +26,7 @@ func HandleUser(c echo.Context) error {
 
 
 func HandlePost(c echo.Context) error {
-	var request repository.Post
+	var request repository.Users
 
 	err := c.Bind(&request)
 	if err != nil {
@@ -43,4 +47,18 @@ func HandlePost(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, response)
+}
+
+
+func DeleteUser(c echo.Context) error {
+
+	err := repository.DeleteUser()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message" : "User deleted successfully",
+		"status_code" : http.StatusOK,
+	})
 }

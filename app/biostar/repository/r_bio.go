@@ -46,7 +46,7 @@ func GetUser() ([]getApiResponse, error) {
 
 	// req.Header.Set("Host", "192.168.88.79:8443")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("bs-session-id", "440ac596d7f743d2aac948e031bf3e7e")
+	req.Header.Set("bs-session-id", "0c26634e17a04915ae22c7d66ef3e1ff")
 	// req.Header.Set("Cookie", "bs-session-id=8a2efee39aa44023b89e03b48ab107e0")
 
 	res, err := client.Do(req)
@@ -94,22 +94,7 @@ type Users	struct {
 	User			User		`json:"User"`
 }
 
-type PostUsers struct {
-	UserID     		string 			`json:"user_id"`
-	UserGroupID    struct {
-		ID string `json:"id"`
-	} `json:"user_group_id"`
-	StartDatetime   string 		`json:"start_datetime"`
-	ExpiryDatetime  string 		`json:"expiry_datetime"`
-	Name            string 			`json:"name"`
-	Email           string 			`json:"email"`
-}
-
-type Post struct {
-	PostUsers		PostUsers		`json:"post"`
-}
-
-func PostUser(post Post) (Post, error) {
+func PostUser(post Users) (Users, error) {
 	url := "https://192.168.88.79:8443/api/users" // Replace with your actual API endpoint
 	method := "POST"
 	transport := &http.Transport{
@@ -121,16 +106,12 @@ func PostUser(post Post) (Post, error) {
 	// Create a JSON payload using a struct and marshaling it
 	payload := Users{
 		User{
-			UserID: "873",
-			UserGroupID: struct {
-				ID string `json:"id"`
-			}{
-				ID: "1",
-			},
+			UserID: post.User.UserID,
+			UserGroupID: post.User.UserGroupID,
 			StartDatetime: "2001-01-01T00:00:00.00Z",
 			ExpiryDatetime: "2030-12-31T23:59:00.00Z",
-			Name: "iyan",
-			Email: "iyan040@gmail.com",
+			Name: post.User.Name,
+			Email: post.User.Email,
 		},
 	}
 
@@ -147,7 +128,7 @@ func PostUser(post Post) (Post, error) {
 		fmt.Println(err)
 	}
 	req.Header.Set("Content-Type", "application/json") // Set the content type
-	req.Header.Set("bs-session-id", "a7fc8ced292f45bc85102103cb3fcf1a")
+	req.Header.Set("bs-session-id", "ee5117a427bb4f7f9afc135d7d5beb75")
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -162,7 +143,7 @@ func PostUser(post Post) (Post, error) {
 
 	fmt.Println("Response Body:", string(body))
 
-	var users User
+	var users Users
 	if err := json.Unmarshal(body, &users);
 	err != nil {
 		fmt.Println("error decoding JSON: ", err.Error())
@@ -170,4 +151,40 @@ func PostUser(post Post) (Post, error) {
 	}
 
 	return post, nil
+}
+
+func DeleteUser() error {
+	url := "https://192.168.88.79:8443/api/users?id=875"
+	method := "DELETE"
+
+	transport := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+		client := &http.Client{Transport: transport}
+
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+		req.Header.Set("Content-Type", "application/json") // Set the content type
+		req.Header.Set("bs-session-id", "ee5117a427bb4f7f9afc135d7d5beb75")
+
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	fmt.Println(string(body))
+
+	return nil
 }

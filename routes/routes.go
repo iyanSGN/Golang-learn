@@ -25,6 +25,8 @@ func SetupRoutes(g *echo.Group) {
 	Admin.GET("/biostar", controller.HandleUser)
 	Admin.POST("/biostar", controller.HandlePost)
 	Admin.DELETE("/biostar", controller.DeleteUser)
+	Admin.POST("/biostar/login", controller.HandleLogin)
+	Admin.POST("/biostar/logout", controller.HandleLogout)
 
 	kecamatanGroup := Admin.Group("/kecamatan")
 	kabupatenGroup := Admin.Group("/kabupaten")

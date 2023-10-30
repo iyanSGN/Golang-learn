@@ -62,3 +62,41 @@ func DeleteUser(c echo.Context) error {
 		"status_code" : http.StatusOK,
 	})
 }
+
+func HandleLogin(c echo.Context) error {
+	var request repository.Login
+
+	err := c.Bind(&request)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	loginRequest, err := repository.LoginAdmin(request)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	response := map[string]interface{}{
+		"status_code" : http.StatusOK,
+		"data" : map[string]interface{}{
+			"message" :  "register Successfull",
+			"data" : loginRequest,
+		},
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
+
+
+func HandleLogout(c echo.Context) error {
+	logout, err := repository.LogoutAdmin()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"data":        logout,
+		"status_Code": http.StatusOK,
+	})
+}

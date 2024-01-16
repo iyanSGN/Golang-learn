@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"rearrange/app/register/control"
 	"rearrange/app/biostar/controller"
+	"rearrange/app/register/control"
 
 	"rearrange/routes/handlers"
 

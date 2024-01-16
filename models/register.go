@@ -6,15 +6,14 @@ import (
 )
 
 type MRegister struct {
-	ID        		uint      		`json:"id" gorm:"primary_key"`
-	RoleID	  		*uint			`json:"role_id"`
+	ID        		uint      		`gorm:"primarykey" json:"id"`
 	Isactive  		int32     		`json:"isactive"`
 	Nama      		string    		`json:"nama"`
 	Phone     		string    		`json:"phone"`
-	Email     		string    		`gorm:"unique;type:varchar(255)" json:"email"`
+	Email     		string    		`gorm:"type:varchar(255)" json:"email"`
 	Password  		string    		`json:"password"`
-	ImageProfile 	[]byte    		`form:"image_profile"`
-	FormatProfile 	string    		`form:"format_profile"`
+	ImageProfile 	[]byte    		`gorm:"type:bytea" json:"image_profile"`
+	FormatProfile 	string    		`gorm:"type:varchar(255)" json:"format_profile"`
 	CreatedBy 		uint      		`json:"createdby"`
 	UpdatedBy 		uint      		`json:"updatedby"`
 	CreatedAt 		time.Time 		`json:"createdat"`

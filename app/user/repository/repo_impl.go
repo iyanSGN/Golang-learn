@@ -2,8 +2,10 @@ package repository
 
 import (
 	"fmt"
+	dto "rearrange/app/user"
 	"rearrange/models"
 	"rearrange/package/database"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -38,7 +40,33 @@ func (r *repoImpl) GetByID(c echo.Context, DB *gorm.DB, ID uint) (models.MRegist
 	return admin, nil
 }
 
-func UpdateAdmin(id int, adminID models.MRegister ) error {
+func CreateUser(newUser dto.PostUser, imageProfile []byte, formatImage string) (models.MRegister, error) {
+	db := database.GetDB()
+
+	user := models.MRegister {
+		ID: newUser.ID,
+		CreatedBy: newUser.CreatedBy,
+		CreatedAt: newUser.CreatedAt,
+		UpdatedBy: newUser.UpdatedBy,
+		UpdatedAt: newUser.CreatedAt,
+		Nama: newUser.Nama,
+		Phone: newUser.Phone,
+		Email: newUser.Email,
+		Password: newUser.Password,
+		ImageProfile: imageProfile,
+		FormatProfile: formatImage,
+
+	}
+
+	result := db.Create(&user)
+	if result.Error != nil {
+		return user, fmt.Errorf("error creating user: %w", result.Error)
+	}
+
+	return user, nil
+}
+
+func UpdateAdmin(id uint, adminID models.MRegister ) error {
 	db := database.GetDB()
 
 	var admin models.MRegister
@@ -62,11 +90,6 @@ func UpdateAdmin(id int, adminID models.MRegister ) error {
 
 	if adminID.Password != "" {
 		admin.Password = adminID.Password
-	}
-
-	if adminID.RoleID != nil {
-		roleID := uint(*adminID.RoleID)
-		admin.RoleID = &roleID
 	}
 
 	updatedAdmin := db.Save(&admin)
@@ -95,5 +118,29 @@ func DeleteAdmin(id int) error {
 		return fmt.Errorf("error deleting selected user: %w", deleteAdmin.Error)
 	}
 
+	return nil
+}
+
+func DefaultPicture(id int, imageProfile []byte, image dto.ImageUser, formatImage string) error {
+	db := database.GetDB()
+
+	var user models.MRegister
+
+	err := db.Where("id = ?", id).First(&user).Error
+	if err != nil {
+		return fmt.Errorf("failed to find : %w", err)
+	}
+
+	fmt.Println(imageProfile)
+
+	user.FormatProfile = formatImage
+	user.ImageProfile = imageProfile
+	user.UpdatedBy = image.UpdatedBy
+	user.UpdatedAt = time.Now()
+
+	updateResult := db.Save(&user)
+	if updateResult.Error != nil {
+		return fmt.Errorf("failed upload image: %w", updateResult.Error)
+	}
 	return nil
 }

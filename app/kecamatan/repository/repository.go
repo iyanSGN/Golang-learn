@@ -9,5 +9,5 @@ import (
 
 type Repository interface {
 	GetAll(c echo.Context, DB *gorm.DB) ([]models.MKecamatan, error)
-	GetByID(C echo.Context, DB *gorm.DB, ID uint) (models.MKecamatan, error)
+	GetByID(c echo.Context, DB *gorm.DB, ID uint) (models.MKecamatan, error)
 }

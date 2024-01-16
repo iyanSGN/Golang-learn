@@ -25,6 +25,7 @@ func NewHandlerUser() *handlersUser {
 func (hd *handlersUser) Route(g *echo.Group) {
 	g.GET("", hd.Controller.GetAll)
 	g.GET("/:id", hd.Controller.GetByID)
+	g.POST("", controller.CreateAdmin)
 	g.PUT("/:id", controller.UpdateAdmin)
 	g.DELETE("/:id", controller.DeleteAdmin)
 }

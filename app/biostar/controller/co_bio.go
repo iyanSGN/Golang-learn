@@ -4,9 +4,11 @@ import (
 	// "fmt"
 	// "strconv"
 
+	"fmt"
 	"net/http"
 	"rearrange/app/biostar/repository"
 
+	// "rearrange/app/biostar/repository"
 
 	"github.com/labstack/echo/v4"
 )
@@ -71,20 +73,25 @@ func HandleLogin(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	loginRequest, err := repository.LoginAdmin(request)
+	loginResponse, headers, err := repository.LoginAdmin(request)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	response := map[string]interface{}{
-		"status_code" : http.StatusOK,
-		"data" : map[string]interface{}{
-			"message" :  "register Successfull",
-			"data" : loginRequest,
-		},
+	// Set the bs-session-id cookie in the response
+	sessionID := headers.Get("bs-session-id")
+	if sessionID != "" {
+		cookie := new(http.Cookie)
+		cookie.Name = "bs-session-id"
+		cookie.Value = sessionID
+		c.SetCookie(cookie)
 	}
 
-	return c.JSON(http.StatusOK, response)
+	fmt.Println("================================================")
+	fmt.Println(sessionID)
+	fmt.Println("================================================")
+
+	return c.JSON(http.StatusOK, loginResponse)
 }
 
 
